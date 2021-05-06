@@ -8,6 +8,10 @@
         <span class="glyphicon" ng-class="orderClass(column.request)"></span>
       </a>
     </td>
+    <td class="valid"
+        ng-if="editable.length">
+      Valid
+    </td>
     <td class="actions"
         ng-if="editable.length">
       Actions
@@ -159,6 +163,17 @@
         </div>
       </td>
 
+      <td class="valid">
+        <script type="text/ng-template" id="myPopoverTemplate">
+          <div>{{info.variable.failures[0]}}</div>
+        </script>
+        <button type="button"
+          uib-popover-template="'myPopoverTemplate'"
+          popover-trigger="'focus'"
+          popover-title="Error">
+        <span class="glyphicon glyphicon-remove"></span></button>
+        <span class="glyphicon glyphicon-ok"></span>
+      </td>
       <td class="actions"
           ng-if="editable.length">
         <div ng-if="!info.editMode"
