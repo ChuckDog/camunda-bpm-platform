@@ -111,7 +111,8 @@ var Controller = [
         operation.variables.push({
           variable: data,
           valid: true,
-          changed: false
+          changed: false,
+          showFailures: true
         });
 
         $scope.$root.$broadcast('variable.added');

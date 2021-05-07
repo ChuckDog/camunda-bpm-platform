@@ -173,12 +173,13 @@
           </ul>
         </script>
         <button ng-if="info.failures.length > 0 && !info.editMode"
+                ng-click="info.showFailures = true"
                 class="btn btn-link"
                 type="button"
                 uib-popover-template="'validation-error-popover'"
                 popover-title="Validation Errors"
                 popover-class="cam-widget-variables-popover"
-                popover-trigger="'focus'"
+                popover-trigger="'none'"
                 popover-is-open="info.showFailures"
                 popover-enable="true">
           <span class="error-sign"></span>

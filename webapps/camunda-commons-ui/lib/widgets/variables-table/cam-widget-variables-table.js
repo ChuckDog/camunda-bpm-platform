@@ -57,7 +57,8 @@ function noopPromise(info /*, i*/) {
 module.exports = [
   '$uibModal',
   '$translate',
-  function($modal, $translate) {
+  '$document',
+  function($modal, $translate, $document) {
     return {
       template: template,
 
@@ -82,6 +83,24 @@ module.exports = [
       },
 
       link: function($scope) {
+        $document.on('click', function(e) {
+          const modalWindow = angular.element('.modal');
+          const modalBackdrop = angular.element('.modal-backdrop');
+          if (
+            (modalWindow.length === 0 && modalBackdrop.length === 0) ||
+            (modalWindow !== e.target &&
+              modalBackdrop !== e.target &&
+              !modalWindow[0].contains(e.target) &&
+              !modalBackdrop[0].contains(e.target))
+          ) {
+            $scope.$apply(function() {
+              $scope.variables.forEach(
+                variable => (variable.showFailures = false)
+              );
+            });
+          }
+        });
+
         console.log(
           'variables123',
           $scope.variables,
