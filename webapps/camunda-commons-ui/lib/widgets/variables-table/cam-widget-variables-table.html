@@ -9,7 +9,7 @@
       </a>
     </td>
     <td class="valid"
-        ng-if="editable.length">
+        ng-if="validatable">
       Valid
     </td>
     <td class="actions"
@@ -163,16 +163,32 @@
         </div>
       </td>
 
-      <td class="valid">
-        <script type="text/ng-template" id="myPopoverTemplate">
-          <div>{{info.variable.failures[0]}}</div>
+      <td class="valid"
+          ng-if="validatable">
+        <script type="text/ng-template" id="validation-error-popover">
+          <ul ng-if="info.failures.length > 0">
+            <li ng-repeat="failure in info.failures">
+              {{failure}}
+            </li>
+          </ul>
         </script>
-        <button type="button"
-          uib-popover-template="'myPopoverTemplate'"
-          popover-trigger="'focus'"
-          popover-title="Error">
-        <span class="glyphicon glyphicon-remove"></span></button>
-        <span class="glyphicon glyphicon-ok"></span>
+        <button ng-if="info.failures.length > 0 && !info.editMode"
+                class="btn btn-link"
+                type="button"
+                uib-popover-template="'validation-error-popover'"
+                popover-title="Validation Errors"
+                popover-class="cam-widget-variables-popover"
+                popover-trigger="'focus'"
+                popover-is-open="info.showFailures"
+                popover-enable="true">
+          <span class="error-sign"></span>
+        </button>
+        <span ng-if="info.failures.length === 0 && !info.editMode"
+              class="glyphicon glyphicon-ok"
+              uib-tooltip="This variable is valid"></span>
+        <span ng-if="info.editMode"
+              class="glyphicon glyphicon-question-sign"
+              uib-tooltip="Please end editing to see if this variable is valid"></span>
       </td>
       <td class="actions"
           ng-if="editable.length">

@@ -65,6 +65,7 @@ module.exports = [
         variables: '=?camVariables',
         headers: '=?camHeaders',
         editable: '=?camEditable',
+        validatable: '@camValidatable',
 
         isVariableEditable: '=?',
         deleteVar: '=?onDelete',
@@ -81,6 +82,13 @@ module.exports = [
       },
 
       link: function($scope) {
+        console.log(
+          'variables123',
+          $scope.variables,
+          ' editable ',
+          $scope.editable
+        );
+
         var backups = [];
 
         function _getVar(v) {
@@ -307,6 +315,7 @@ module.exports = [
             };
 
         $scope.isEditable = function(what, info) {
+          //console.log($scope.editable);
           return info.editMode && $scope.editable.indexOf(what) > -1;
         };
 
