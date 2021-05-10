@@ -439,7 +439,7 @@ module.exports = [
               } else {
                 info.variable.valueInfo = saved.valueInfo;
               }
-              $scope.onSaved(v, info);
+              $scope.onSaved && $scope.onSaved(v, info);
             },
             function(/*err*/) {
               // console.error(err);
@@ -464,7 +464,8 @@ module.exports = [
         };
 
         $scope.enableEditMode = function(info, enableEditMode) {
-          $scope.onToggleEditMode(info, enableEditMode);
+          $scope.onToggleEditMode &&
+            $scope.onToggleEditMode(info, enableEditMode);
           info.editMode = enableEditMode;
           if (enableEditMode) {
             var uncompletedCount = 0;
