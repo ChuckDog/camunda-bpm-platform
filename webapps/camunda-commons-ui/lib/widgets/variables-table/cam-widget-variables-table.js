@@ -77,8 +77,8 @@ module.exports = [
         uploadVar: '=?onUpload',
         onSortChange: '&',
         onValidation: '&',
-        onChangeStart: '=?',
-        onChangeEnd: '=?',
+        onChangeStart: '&',
+        onChangeEnd: '&',
         onToggleEditMode: '=?',
         defaultSort: '=?',
         ignoreTypes: '=?'
@@ -463,9 +463,7 @@ module.exports = [
           );
         };
 
-        $scope.$watch('variables', () => {});
-
-        $scope.enableEditMode = function(info, enableEditMode, reverted) {
+        $scope.enableEditMode = function(info, enableEditMode) {
           $scope.onToggleEditMode(info, enableEditMode);
           info.editMode = enableEditMode;
           if (enableEditMode) {
@@ -476,7 +474,6 @@ module.exports = [
               }
             });
             if (uncompletedCount === 1) {
-              $scope.editInProgress = true;
               $scope.onChangeStart();
             }
           } else {
@@ -487,8 +484,7 @@ module.exports = [
               }
             });
             if (completedCount === $scope.variables.length) {
-              $scope.editInProgress = false;
-              //$scope.onChangeEnd(reverted);
+              $scope.onChangeEnd();
             }
           }
         };
