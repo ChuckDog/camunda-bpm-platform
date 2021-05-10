@@ -66,11 +66,12 @@ module.exports = [
         variables: '=?camVariables',
         headers: '=?camHeaders',
         editable: '=?camEditable',
-        validatable: '@camValidatable',
+        validatable: '@',
 
         isVariableEditable: '=?',
         deleteVar: '=?onDelete',
         saveVar: '=?onSave',
+        onSaved: '=?',
         editVar: '=?onEdit',
         downloadVar: '=?onDownload',
         uploadVar: '=?onUpload',
@@ -328,7 +329,6 @@ module.exports = [
             };
 
         $scope.isEditable = function(what, info) {
-          //console.log($scope.editable);
           return info.editMode && $scope.editable.indexOf(what) > -1;
         };
 
@@ -427,11 +427,8 @@ module.exports = [
         $scope.saveVariable = function(v) {
           var info = $scope.variables[v];
           $scope.enableEditMode(info, false);
-
-          console.log(info);
           $scope.saveVar(info, v).then(
             function(saved) {
-              console.log(saved);
               info.variable.name = saved.name;
               var type = (info.variable.type = saved.type);
               info.variable.value = saved.value;
@@ -442,6 +439,7 @@ module.exports = [
               } else {
                 info.variable.valueInfo = saved.valueInfo;
               }
+              $scope.onSaved(v, info);
             },
             function(/*err*/) {
               // console.error(err);
@@ -490,7 +488,7 @@ module.exports = [
             });
             if (completedCount === $scope.variables.length) {
               $scope.editInProgress = false;
-              $scope.onChangeEnd(reverted);
+              //$scope.onChangeEnd(reverted);
             }
           }
         };

@@ -172,7 +172,7 @@
             </li>
           </ul>
         </script>
-        <button ng-if="info.failures.length > 0 && !editInProgress"
+        <button ng-if="info.failures.length > 0 && !info.editMode"
                 ng-click="info.showFailures = true"
                 class="btn btn-link"
                 type="button"
@@ -184,10 +184,10 @@
                 popover-enable="true">
           <span class="error-sign"></span>
         </button>
-        <span ng-if="info.failures.length === 0 && !editInProgress"
+        <span ng-if="info.failures.length === 0 && !info.editMode"
               class="glyphicon glyphicon-ok"
               uib-tooltip="This variable is valid"></span>
-        <span ng-if="editInProgress"
+        <span ng-if="info.editMode"
               class="glyphicon glyphicon-question-sign"
               uib-tooltip="Please end editing to see if this variable is valid"></span>
       </td>
