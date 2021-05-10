@@ -76,14 +76,15 @@ module.exports = [
         uploadVar: '=?onUpload',
         onSortChange: '&',
         onValidation: '&',
-        onChangeStart: '&',
-        onChangeEnd: '&',
+        onChangeStart: '=?',
+        onChangeEnd: '=?',
+        onToggleEditMode: '=?',
         defaultSort: '=?',
         ignoreTypes: '=?'
       },
 
       link: function($scope) {
-        $document.on('click', function(e) {
+        $document.on('click', e => {
           const modalWindow = angular.element('.modal');
           const modalBackdrop = angular.element('.modal-backdrop');
           if (
@@ -93,20 +94,13 @@ module.exports = [
               !modalWindow[0].contains(e.target) &&
               !modalBackdrop[0].contains(e.target))
           ) {
-            $scope.$apply(function() {
+            $scope.$apply(() => {
               $scope.variables.forEach(
                 variable => (variable.showFailures = false)
               );
             });
           }
         });
-
-        console.log(
-          'variables123',
-          $scope.variables,
-          ' editable ',
-          $scope.editable
-        );
 
         var backups = [];
 
@@ -434,8 +428,10 @@ module.exports = [
           var info = $scope.variables[v];
           $scope.enableEditMode(info, false);
 
+          console.log(info);
           $scope.saveVar(info, v).then(
             function(saved) {
+              console.log(saved);
               info.variable.name = saved.name;
               var type = (info.variable.type = saved.type);
               info.variable.value = saved.value;
@@ -469,7 +465,10 @@ module.exports = [
           );
         };
 
-        $scope.enableEditMode = function(info, enableEditMode) {
+        $scope.$watch('variables', () => {});
+
+        $scope.enableEditMode = function(info, enableEditMode, reverted) {
+          $scope.onToggleEditMode(info, enableEditMode);
           info.editMode = enableEditMode;
           if (enableEditMode) {
             var uncompletedCount = 0;
@@ -479,6 +478,7 @@ module.exports = [
               }
             });
             if (uncompletedCount === 1) {
+              $scope.editInProgress = true;
               $scope.onChangeStart();
             }
           } else {
@@ -489,7 +489,8 @@ module.exports = [
               }
             });
             if (completedCount === $scope.variables.length) {
-              $scope.onChangeEnd();
+              $scope.editInProgress = false;
+              $scope.onChangeEnd(reverted);
             }
           }
         };

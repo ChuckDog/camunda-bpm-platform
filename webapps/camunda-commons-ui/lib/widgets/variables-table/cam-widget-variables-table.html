@@ -172,7 +172,7 @@
             </li>
           </ul>
         </script>
-        <button ng-if="info.failures.length > 0 && !info.editMode"
+        <button ng-if="info.failures.length > 0 && !editInProgress"
                 ng-click="info.showFailures = true"
                 class="btn btn-link"
                 type="button"
@@ -184,10 +184,10 @@
                 popover-enable="true">
           <span class="error-sign"></span>
         </button>
-        <span ng-if="info.failures.length === 0 && !info.editMode"
+        <span ng-if="info.failures.length === 0 && !editInProgress"
               class="glyphicon glyphicon-ok"
               uib-tooltip="This variable is valid"></span>
-        <span ng-if="info.editMode"
+        <span ng-if="editInProgress"
               class="glyphicon glyphicon-question-sign"
               uib-tooltip="Please end editing to see if this variable is valid"></span>
       </td>
@@ -221,7 +221,7 @@
             <span class="glyphicon glyphicon-ok"></span>
           </button>
           <button class="btn btn-xs btn-default"
-                  ng-click="enableEditMode(info, false)"
+                  ng-click="enableEditMode(info, false, true)"
                   tooltip-append-to-body="true"
                   uib-tooltip="{{ 'CAM_WIDGET_VARIABLES_TABLE_REVERT_VARIABLE' | translate }}">
             <span class="glyphicon glyphicon-remove"></span>
