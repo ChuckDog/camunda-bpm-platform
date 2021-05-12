@@ -78,10 +78,6 @@
        translate-values="{ name: newVariable.name }">
   </div>
 
-  <div ng-if="status === 'SUCCESS' && isMigration">
-    The variable "{{newVariable.name}}" has been added to the migration plan successfully.
-  </div>
-
   <div ng-if="status === 'SUCCESS' && isProcessInstance"
        translate="VARIABLE_ADD_STATUS_SUCCESS_PROCESS"
        translate-values="{ name: newVariable.name }">

@@ -85,23 +85,25 @@ module.exports = [
       },
 
       link: function($scope) {
-        $document.on('click', e => {
-          const modalWindow = angular.element('.modal');
-          const modalBackdrop = angular.element('.modal-backdrop');
-          if (
-            (modalWindow.length === 0 && modalBackdrop.length === 0) ||
-            (modalWindow !== e.target &&
-              modalBackdrop !== e.target &&
-              !modalWindow[0].contains(e.target) &&
-              !modalBackdrop[0].contains(e.target))
-          ) {
-            $scope.$apply(() => {
-              $scope.variables.forEach(
-                variable => (variable.showFailures = false)
-              );
-            });
-          }
-        });
+        if ($scope.validatable) {
+          $document.on('click', e => {
+            const modalWindow = angular.element('.modal');
+            const modalBackdrop = angular.element('.modal-backdrop');
+            if (
+              (modalWindow.length === 0 && modalBackdrop.length === 0) ||
+              (modalWindow !== e.target &&
+                modalBackdrop !== e.target &&
+                !modalWindow[0].contains(e.target) &&
+                !modalBackdrop[0].contains(e.target))
+            ) {
+              $scope.$apply(() => {
+                $scope.variables.forEach(
+                  variable => (variable.showFailures = false)
+                );
+              });
+            }
+          });
+        }
 
         var backups = [];
 
@@ -211,10 +213,13 @@ module.exports = [
               var readonly = function() {
                 return !$scope.isEditable('value', $scope.variables[v]);
               };
-
-              return $modal.open(
+              const result = $modal.open(
                 variableModalConfig(v, varUtils.templateDialog, readonly)
               ).result;
+              if (!readonly) {
+                result.then(() => (info.changed = true)).catch(angular.noop);
+              }
+              return result;
             };
 
         $scope.readStringVar = angular.isFunction($scope.readStringVar)
@@ -320,6 +325,7 @@ module.exports = [
           });
         }
         $scope.$watch('variables', initVariables);
+        $scope.$on('variable.added', () => initVariables());
         initVariables();
 
         $scope.canEditVariable = angular.isFunction($scope.isVariableEditable)

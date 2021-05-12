@@ -116,7 +116,7 @@ var Controller = [
           showFailures: true
         });
 
-        $scope.$root.$broadcast('variable.added');
+        $scope.$root.$broadcast('variable.added', data.name);
 
         $scope.status = SUCCESS;
       } else {
