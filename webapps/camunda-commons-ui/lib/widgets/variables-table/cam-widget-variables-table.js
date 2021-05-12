@@ -216,9 +216,7 @@ module.exports = [
               const result = $modal.open(
                 variableModalConfig(v, varUtils.templateDialog, readonly)
               ).result;
-              if (!readonly) {
-                result.then(() => (info.changed = true)).catch(angular.noop);
-              }
+              result.then(() => (info.changed = true)).catch(angular.noop);
               return result;
             };
 
