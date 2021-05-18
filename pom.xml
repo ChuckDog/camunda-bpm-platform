@@ -281,6 +281,34 @@
       </build>
     </profile>
 
+    <profile>
+      <id>camunda-bpm</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>camunda-bpm-nexus</id>
+          <name>camunda-bpm-nexus</name>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+          <url>https://app.camunda.com/nexus/content/groups/public</url>
+        </repository>
+
+        <repository>
+          <id>jboss-community</id>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+      </repositories>
+    </profile>
+
   </profiles>
 
   <licenses>
@@ -323,5 +351,6 @@
       <id>fix-maven-snapshots-issue-with-nexus</id>
       <url>allow-parent-pom-resolving-when-snapshot</url>
     </repository>
+
   </repositories>
 </project>
